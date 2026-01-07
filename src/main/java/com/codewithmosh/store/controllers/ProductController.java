@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +26,7 @@ public class ProductController {
 
     @GetMapping
     public List<ProductDto> getAllProducts(
-        @RequestParam(required = false) Byte categoryId
+        @RequestParam(required = false, name = "categoryId") Byte categoryId
     ) {
         if (categoryId != null){
             return productRepository.findByCategoryId(categoryId)
