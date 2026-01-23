@@ -10,6 +10,6 @@ import lombok.Data;
 @Data
 public class CartDto {
     private UUID id;
-    private List<CartItemDto> items = new ArrayList<>();
+    private List<CartItemDto> cartItems = new ArrayList<>();
     private BigDecimal totalPrice = BigDecimal.ZERO;
 }
