@@ -30,9 +30,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
-    private ProductRepository productRepository;
-    private ProductMapper productMapper;
-    private CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
+    private final CategoryRepository categoryRepository;
 
     @GetMapping
     public List<ProductDto> getAllProducts(
