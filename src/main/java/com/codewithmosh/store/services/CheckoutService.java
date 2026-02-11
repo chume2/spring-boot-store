@@ -11,7 +11,6 @@ import com.codewithmosh.store.exceptions.PaymentException;
 import com.codewithmosh.store.exceptions.CartEmptyException;
 import com.codewithmosh.store.repositories.CartRepository;
 import com.codewithmosh.store.repositories.OrderRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -49,5 +48,15 @@ public class CheckoutService {
             orderRepository.delete(order);
             throw ex;
         }
+    }
+
+    public void handleWebhookEvent(WebhookRequest request) {
+        paymentGateway
+            .parseWebhookRequest(request)
+            .ifPresent(paymentResult -> {
+                var order = orderRepository.findById(paymentResult.getOrderId()).orElseThrow();
+                order.setStatus(paymentResult.getPaymentStatus());
+                orderRepository.save(order);
+            });;
     }
 }
