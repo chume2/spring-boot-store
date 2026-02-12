@@ -1,25 +1,81 @@
 package com.codewithmosh.store.users;
 
-import java.util.Collections;
+import java.util.Set;
 
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.codewithmosh.store.auth.ChangePasswordRequest;
 
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Service
-public class UserService implements UserDetailsService {
-    private UserRepository userRepository;
+public class UserService {
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        var user = userRepository.findByEmail(email).orElseThrow(
-            () -> new UsernameNotFoundException("User not found."));
+    public Iterable<UserDto> getAllUsers(String sort) {
+        if (!Set.of("name", "email").contains(sort)) {
+            sort = "name";
+        }
+
+        return userRepository.findAll(Sort.by(sort))
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+    }
+
+    public UserDto getUser(Long userId) {
+        var user = userRepository.findById(userId).orElseThrow();
         
-        return new User(user.getEmail(), user.getPassword(), Collections.emptyList());
+        return userMapper.toDto(user);
+    }
+
+    public UserDto registerUser(RegisterUserRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new EmailAlreadyTakenException();
+        }
+
+        var user = userMapper.toEntity(request);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.USER);
+        userRepository.save(user);
+
+        return userMapper.toDto(user);
+    }
+
+    public UserDto updateUser(Long id, UpdateUserRequest request) {
+        var user = userRepository.findById(id).orElseThrow(
+            () -> new UserNotFoundException()
+        );
+
+        userMapper.update(request, user);
+        userRepository.save(user);
+
+        return userMapper.toDto(user);
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.findById(id).orElseThrow(
+            () -> new UserNotFoundException()
+        ); 
+        userRepository.deleteById(id);
+    }
+
+    public void changePassword(Long id, ChangePasswordRequest request) {
+        var user = userRepository.findById(id).orElseThrow(
+            () -> new UserNotFoundException()
+        );
+
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            throw new AccessDeniedException("Incorrect password.");
+        }
+
+        user.setPassword(request.getNewPassword());
+        userRepository.save(user);
     }
 }

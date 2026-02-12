@@ -9,12 +9,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.codewithmosh.store.auth.ChangePasswordRequest;
 
 import java.util.Map;
-import java.util.Set;
-
-import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,34 +27,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserRepository userRepository;
-    private final UserMapper userMapper;
-    private final PasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     @GetMapping
     public Iterable<UserDto> getAllUsers(
-        @RequestParam(required = false, defaultValue = "", name = "sort") String sort
+        @RequestParam(required = false, defaultValue = "", name = "sort") String sortBy
     ) {
-
-        if (!Set.of("name", "email").contains(sort)) {
-            sort = "name";
-        }
-
-        return userRepository.findAll(Sort.by(sort))
-                .stream()
-                .map(userMapper::toDto)
-                .toList();
+        return userService.getAllUsers(sortBy);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable Long id) {
-        var user = userRepository.findById(id).orElse(null);
-
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-        
-        return ResponseEntity.ok(userMapper.toDto(user));
+    public UserDto getUser(@PathVariable Long id) {
+        return userService.getUser(id);
     }
 
     @PostMapping
@@ -63,69 +46,47 @@ public class UserController {
         @Valid @RequestBody RegisterUserRequest request,
         UriComponentsBuilder uriBuilder
     ) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            return ResponseEntity.badRequest().body(
-                Map.of("email", "Account already registered with that email.")
-            );
-        }
-
-        var user = userMapper.toEntity(request);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole(Role.USER);
-        userRepository.save(user);
-
-        var userDto = userMapper.toDto(user);
+        var userDto = userService.registerUser(request);
         var uri = uriBuilder.path("/users/{id}").buildAndExpand(userDto.getId()).toUri();
 
         return ResponseEntity.created(uri).body(userDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(
+    public UserDto updateUser(
         @PathVariable(name = "id") Long id,
         @RequestBody UpdateUserRequest request
     ) {
-
-        var user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        userMapper.update(request, user);
-        userRepository.save(user);
-
-        return ResponseEntity.ok(userMapper.toDto(user));
+        return userService.updateUser(id, request);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-        var user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-        userRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
     }
 
     @PostMapping("/{id}/change-password")
-    public ResponseEntity<Void> changePassword(
-        @PathVariable Long id, 
-        @RequestBody ChangePasswordRequest request) {
-
-        var user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        if (!user.getPassword().equals(request.getOldPassword())) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        user.setPassword(request.getNewPassword());
-        userRepository.save(user);
-
-        return ResponseEntity.noContent().build();
+    public void changePassword(@PathVariable Long id, @RequestBody ChangePasswordRequest request) {
+        userService.changePassword(id, request);
     }
 
+    @ExceptionHandler(EmailAlreadyTakenException.class)
+    public ResponseEntity<Map<String, String>> handleEmailAlreadyTaken() {
+        return ResponseEntity.badRequest().body(
+            Map.of("Error", "Account already registered with that email.")
+        );
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleUserNotFound() {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+            Map.of("Error", "User not found.")
+        );
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<Void> handleAccessDenied() {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
 }
     
