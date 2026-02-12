@@ -1,4 +1,4 @@
-package com.codewithmosh.store.controllers;
+package com.codewithmosh.store.common;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,8 +8,6 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import com.codewithmosh.store.dtos.ErrorDto;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
