@@ -1,4 +1,4 @@
-package com.codewithmosh.store.repositories;
+package com.codewithmosh.store.orders;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.codewithmosh.store.entities.Order;
 import com.codewithmosh.store.users.User;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {

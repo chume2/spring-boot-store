@@ -1,4 +1,4 @@
-package com.codewithmosh.store.dtos;
+package com.codewithmosh.store.orders;
 
 import java.math.BigDecimal;
 
@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class OrderItemDto {
-    private OrderProductDto product;
+    private ProductDto product;
     private Integer quantity;
     private BigDecimal totalPrice;
 }

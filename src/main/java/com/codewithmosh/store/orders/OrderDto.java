@@ -1,10 +1,8 @@
-package com.codewithmosh.store.dtos;
+package com.codewithmosh.store.orders;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-
-import com.codewithmosh.store.entities.PaymentStatus;
 
 import lombok.Data;
 

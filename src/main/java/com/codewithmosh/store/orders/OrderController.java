@@ -1,4 +1,4 @@
-package com.codewithmosh.store.controllers;
+package com.codewithmosh.store.orders;
 
 import java.util.List;
 
@@ -12,9 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.codewithmosh.store.dtos.ErrorDto;
-import com.codewithmosh.store.dtos.OrderDto;
-import com.codewithmosh.store.exceptions.OrderNotFoundException;
-import com.codewithmosh.store.services.OrderService;
 
 import lombok.AllArgsConstructor;
 
