@@ -14,7 +14,7 @@ import com.codewithmosh.store.dtos.CartDto;
 import com.codewithmosh.store.dtos.CartItemDto;
 import com.codewithmosh.store.dtos.UpdateCartItemRequest;
 import com.codewithmosh.store.exceptions.CartNotFoundException;
-import com.codewithmosh.store.exceptions.ProductNotFoundException;
+import com.codewithmosh.store.products.ProductNotFoundException;
 import com.codewithmosh.store.services.CartService;
 
 import jakarta.validation.Valid;

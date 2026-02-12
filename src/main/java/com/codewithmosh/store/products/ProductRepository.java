@@ -1,6 +1,4 @@
-package com.codewithmosh.store.repositories;
-
-import com.codewithmosh.store.entities.Product;
+package com.codewithmosh.store.products;
 
 import java.util.List;
 

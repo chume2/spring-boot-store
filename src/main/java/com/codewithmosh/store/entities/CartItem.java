@@ -2,6 +2,8 @@ package com.codewithmosh.store.entities;
 
 import java.math.BigDecimal;
 
+import com.codewithmosh.store.products.Product;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
