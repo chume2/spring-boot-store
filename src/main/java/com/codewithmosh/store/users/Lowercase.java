@@ -1,4 +1,4 @@
-package com.codewithmosh.store.validation;
+package com.codewithmosh.store.users;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

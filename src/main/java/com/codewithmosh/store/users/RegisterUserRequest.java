@@ -1,6 +1,4 @@
-package com.codewithmosh.store.dtos;
-
-import com.codewithmosh.store.validation.Lowercase;
+package com.codewithmosh.store.users;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

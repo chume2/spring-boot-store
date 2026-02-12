@@ -4,7 +4,7 @@ import java.util.Date;
 
 import javax.crypto.SecretKey;
 
-import com.codewithmosh.store.entities.Role;
+import com.codewithmosh.store.users.Role;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

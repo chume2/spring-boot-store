@@ -1,4 +1,4 @@
-package com.codewithmosh.store.services;
+package com.codewithmosh.store.users;
 
 import java.util.Collections;
 
@@ -7,8 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import com.codewithmosh.store.repositories.UserRepository;
 
 import lombok.AllArgsConstructor;
 
