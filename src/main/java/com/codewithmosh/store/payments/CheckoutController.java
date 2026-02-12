@@ -1,4 +1,4 @@
-package com.codewithmosh.store.controllers;
+package com.codewithmosh.store.payments;
 
 import java.util.Map;
 
@@ -12,14 +12,10 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codewithmosh.store.dtos.CheckoutRequest;
-import com.codewithmosh.store.dtos.CheckoutResponse;
 import com.codewithmosh.store.dtos.ErrorDto;
 import com.codewithmosh.store.exceptions.CartEmptyException;
 import com.codewithmosh.store.exceptions.CartNotFoundException;
-import com.codewithmosh.store.exceptions.PaymentException;
-import com.codewithmosh.store.services.CheckoutService;
-import com.codewithmosh.store.services.WebhookRequest;
+
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
