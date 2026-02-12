@@ -1,4 +1,4 @@
-package com.codewithmosh.store.services;
+package com.codewithmosh.store.auth;
 
 import java.util.Date;
 

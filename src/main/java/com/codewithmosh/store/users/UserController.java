@@ -1,12 +1,12 @@
 package com.codewithmosh.store.users;
 
-import com.codewithmosh.store.dtos.ChangePasswordRequest;
-
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.codewithmosh.store.auth.ChangePasswordRequest;
 
 import java.util.Map;
 import java.util.Set;

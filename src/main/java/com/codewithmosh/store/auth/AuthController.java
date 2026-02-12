@@ -1,14 +1,9 @@
-package com.codewithmosh.store.controllers;
+package com.codewithmosh.store.auth;
 
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.codewithmosh.store.config.JwtConfig;
-import com.codewithmosh.store.dtos.JwtResponse;
-import com.codewithmosh.store.dtos.LoginRequest;
-import com.codewithmosh.store.services.AuthService;
-import com.codewithmosh.store.services.JwtService;
 import com.codewithmosh.store.users.UserDto;
 import com.codewithmosh.store.users.UserMapper;
 import com.codewithmosh.store.users.UserRepository;

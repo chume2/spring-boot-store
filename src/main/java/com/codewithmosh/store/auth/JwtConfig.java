@@ -1,4 +1,4 @@
-package com.codewithmosh.store.config;
+package com.codewithmosh.store.auth;
 
 import javax.crypto.SecretKey;
 
