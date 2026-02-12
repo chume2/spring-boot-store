@@ -1,4 +1,4 @@
-package com.codewithmosh.store.repositories;
+package com.codewithmosh.store.carts;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -7,8 +7,6 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
-import com.codewithmosh.store.entities.Cart;
 
 public interface CartRepository extends JpaRepository<Cart, UUID> {
     @EntityGraph(attributePaths = "cartItems.product")

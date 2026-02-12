@@ -1,4 +1,4 @@
-package com.codewithmosh.store.dtos;
+package com.codewithmosh.store.carts;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

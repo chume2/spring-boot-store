@@ -1,4 +1,4 @@
-package com.codewithmosh.store.entities;
+package com.codewithmosh.store.carts;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

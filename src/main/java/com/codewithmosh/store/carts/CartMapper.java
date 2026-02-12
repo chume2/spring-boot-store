@@ -1,12 +1,7 @@
-package com.codewithmosh.store.mappers;
+package com.codewithmosh.store.carts;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
-import com.codewithmosh.store.dtos.CartDto;
-import com.codewithmosh.store.dtos.CartItemDto;
-import com.codewithmosh.store.entities.Cart;
-import com.codewithmosh.store.entities.CartItem;
 
 @Mapper(componentModel = "spring")
 public interface CartMapper {

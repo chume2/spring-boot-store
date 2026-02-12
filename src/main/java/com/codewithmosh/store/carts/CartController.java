@@ -1,4 +1,4 @@
-package com.codewithmosh.store.controllers;
+package com.codewithmosh.store.carts;
 
 import java.util.Map;
 import java.util.UUID;
@@ -9,13 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.codewithmosh.store.dtos.AddItemToCartRequest;
-import com.codewithmosh.store.dtos.CartDto;
-import com.codewithmosh.store.dtos.CartItemDto;
-import com.codewithmosh.store.dtos.UpdateCartItemRequest;
-import com.codewithmosh.store.exceptions.CartNotFoundException;
 import com.codewithmosh.store.products.ProductNotFoundException;
-import com.codewithmosh.store.services.CartService;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
